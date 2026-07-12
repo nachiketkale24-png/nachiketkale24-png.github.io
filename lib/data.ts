@@ -16,12 +16,12 @@ export const projects: Project[] = [
   {
     slug: "crowdsense-ai",
     name: "CrowdSense AI",
-    tagline: "Predictive crowd management for Mumbai's transit network",
+    tagline: "Predictive crowd management, journey planning & surge prevention platform",
     period: "Mar 2026 — Apr 2026",
     problem:
-      "Mumbai's suburban platforms carry 7.5M+ commuters daily. Existing CCTV systems are reactive — they document incidents after they happen, not before. CrowdSense predicts density surges 10-15 minutes ahead and recommends action before platforms become unsafe.",
+      "Mumbai's suburban platforms carry 7.5M+ commuters daily. Existing CCTV systems are reactive — they document incidents after they happen, not before. CrowdSense ingests multi-sensor data (CCTV, BLE, WiFi, SMS) from transit hubs and stadiums, fuses it in real-time to estimate crowd density, and triggers automated alerts to prevent stampedes and overcrowding before platforms become unsafe.",
     hardPart:
-      "Keeping the YOLOv8 vision engine from blocking the main request thread while serving 5+ concurrent video feeds meant decoupling computer vision entirely from the Express API layer and streaming results back over Redis Pub/Sub instead of direct calls.",
+      "Fusing high-confidence CCTV data with noisy BLE/WiFi proxies using Kalman filtering, then layering a Z-Score anomaly detector on top — all while keeping the YOLOv8 vision engine decoupled from the Express API layer via Redis Pub/Sub so 5+ concurrent video feeds never block the main request thread.",
     stats: [
       { label: "Concurrent feeds", value: "5+" },
       { label: "Stream latency", value: "<50ms" },
@@ -35,62 +35,135 @@ export const projects: Project[] = [
       "Python",
       "YOLOv8",
       "OpenCV",
+      "Kalman Filter",
       "Redis Pub/Sub",
       "WebSockets",
+      "Zustand",
       "Pipecat AI",
-      "Daily.co Voice",
+      "Sarvam AI",
+      "Groq",
+      "Daily.co",
       "MongoDB",
       "Twilio",
     ],
-    flow: ["CCTV / BLE / WiFi feeds", "YOLOv8 detection engine", "Kalman filter + Z-score risk model", "Redis Pub/Sub", "Command center + SMS alerts"],
-    links: { github: "https://github.com/Hack4Innovation-2026/AltX_Overdrive-Hack4Innovation-26" },
+    flow: [
+      "CCTV / BLE / WiFi / SMS feeds",
+      "YOLOv8 detection engine",
+      "Kalman fusion + Z-score anomaly",
+      "Redis Pub/Sub broadcast",
+      "Operator dashboard + mobile app",
+      "SMS / WhatsApp alerts",
+    ],
+    links: { github: "https://github.com/nachiketkale24-png/AltX_Overdrive-Hack4Innovation-26" },
     accent: "signal",
   },
   {
     slug: "lablink",
     name: "LabLink",
-    tagline: "Multi-tenant blood bank & lab coordination platform",
+    tagline: "Intelligent blood bank & lab management platform for hospital networks",
     period: "Jan 2026 — Feb 2026",
     problem:
-      "Blood banks, hospitals, and donors operate as disconnected systems, so critical shortages surface too late. LabLink unifies all three into one platform with real-time proximity matching and automated shortage alerts.",
+      "India's blood banking infrastructure still relies heavily on manual registers and phone calls. Critical shortages surface too late because blood banks, hospitals, donors, lab technicians, and patients operate as disconnected systems. LabLink unifies all five into one platform with real-time proximity matching, emergency SOS broadcasting, and complete traceability from donation to transfusion.",
     hardPart:
-      "Matching compatible donors within a live 10km radius fast enough to matter in an emergency meant building spatial queries on MongoDB GeoJSON indexes rather than computing distance in application code — the difference between a 3-second and a 30-second response.",
+      "Building a one-click emergency SOS broadcast that matches compatible donors within a configurable radius using GeoJSON-indexed spatial queries on MongoDB — fast enough to matter in an emergency — while also running a dual-verification lab result pipeline (technician → pathologist) with critical value flagging and barcode-based specimen lifecycle tracking.",
     stats: [
-      { label: "Donor match radius", value: "10km" },
+      { label: "Blood groups", value: "8" },
       { label: "Match response", value: "<3s" },
-      { label: "Stock sync accuracy", value: "99.9%" },
+      { label: "Portals", value: "4" },
     ],
-    stack: ["React 19", "Node.js", "MongoDB", "GeoJSON", "JWT", "eRaktKosh API", "Gemini API"],
-    flow: ["Donor / hospital request", "GeoJSON spatial index query", "Ranked match engine", "Real-time notification", "eRaktKosh stock sync"],
-    links: { github: "https://github.com/nachiketkale24-png" },
+    stack: [
+      "React 19",
+      "Express 5",
+      "Node.js",
+      "MongoDB",
+      "GeoJSON",
+      "JWT",
+      "TailwindCSS",
+      "eRaktKosh API",
+    ],
+    flow: [
+      "Donor / hospital / patient request",
+      "GeoJSON spatial index query",
+      "Emergency SOS broadcast",
+      "Ranked match engine",
+      "Lab specimen lifecycle",
+      "eRaktKosh stock sync",
+    ],
+    links: { github: "https://github.com/nachiketkale24-png/Blood_Lab" },
+    accent: "success",
+  },
+  {
+    slug: "smartkisan",
+    name: "SmartKisan",
+    tagline: "Voice-enabled smart agriculture assistant for Indian farmers",
+    period: "Feb 2026 — Mar 2026",
+    problem:
+      "Indian farmers face a massive digital divide — advanced agricultural technology like real-time market prices, government scheme eligibility, crop health diagnostics, and smart irrigation exists, but remains inaccessible to those with limited technical expertise. SmartKisan bridges this gap with Hindi/Hinglish voice commands and an offline-first mobile experience.",
+    hardPart:
+      "Building a robust intent recognition pipeline that correctly maps Hindi/Hinglish farmer terminology to app actions with confidence scoring — handling commands like 'गेहूं का भाव बताओ' or 'sinchai ki salah do' — while keeping the entire app functional offline-first with AsyncStorage caching for market prices and scheme data.",
+    stats: [
+      { label: "Crops tracked", value: "6+" },
+      { label: "Govt schemes", value: "50+" },
+      { label: "Languages", value: "3" },
+    ],
+    stack: [
+      "React Native",
+      "Expo",
+      "TypeScript",
+      "expo-speech",
+      "expo-av",
+      "AsyncStorage",
+      "i18n-js",
+      "React Navigation",
+    ],
+    flow: [
+      "Voice input (Hindi / Hinglish)",
+      "expo-av recording",
+      "Intent router + NLP",
+      "Confidence scoring",
+      "Action execution + TTS response",
+    ],
+    links: { github: "https://github.com/nachiketkale24-png/SmartKisan" },
     accent: "success",
   },
   {
     slug: "weapon-alert-system",
     name: "Weapon Alert System",
-    tagline: "Real-time threat detection across live CCTV infrastructure",
+    tagline: "Real-time weapon detection across live CCTV infrastructure",
     period: "May 2026 — Present",
     problem:
-      "Standard object detection models degrade sharply as subjects move further from camera. This ongoing internship project isolates and corrects for distance-based detection decay across live CCTV streams, from initial detection through to instant alert dispatch.",
+      "Standard surveillance systems require human operators watching dozens of feeds — threats are spotted too late. This SPTBI internship project builds a real-time weapon detection system that handles multiple simultaneous camera feeds (including mobile phones connected via QR tracking), runs YOLO inference on every frame, and dispatches alerts within sub-second latency.",
     hardPart:
-      "Sub-second alert latency required a fault-tolerant socket-based frame pipeline that keeps tracking continuous across dropped frames and lighting shifts — evaluated against benchmark datasets (USRT, CCTV-Gun) rather than a single clean test set.",
+      "Sub-second alert latency required a fault-tolerant socket-based frame pipeline handling multiple simultaneous camera feeds — including mobile phone cameras connected via QR tracking — while maintaining continuous DeepSORT tracking across dropped frames, lighting shifts, and cross-platform browser differences for camera access.",
     stats: [
       { label: "Alert latency", value: "<1s" },
-      { label: "Benchmark sets", value: "2" },
+      { label: "Camera support", value: "Multi" },
       { label: "Team size", value: "6" },
     ],
-    stack: ["Python", "YOLOv8", "CNNs", "DeepSORT", "Sockets"],
-    flow: ["Live CCTV stream", "YOLOv8 + DeepSORT tracking", "Threshold decision logic", "Socket alert pipeline", "SMS / Email dispatch"],
-    links: {},
+    stack: [
+      "Python",
+      "YOLOv8",
+      "DeepSORT",
+      "Streamlit",
+      "Sockets",
+    ],
+    flow: [
+      "Multi-camera / QR phone feeds",
+      "YOLO inference engine",
+      "DeepSORT tracking",
+      "Threat classification",
+      "Alert dispatch",
+    ],
+    links: { github: "https://github.com/nachiketkale24-png/Weapon-Detection" },
     accent: "signal",
   },
 ];
 
 export const stats = [
   { label: "Hackathons led", value: "15+" },
-  { label: "VESIT ranking", value: "Top 40 / 2000+" },
+  { label: "Systems shipped", value: "4" },
   { label: "Stream latency", value: "<50ms" },
-  { label: "Sync accuracy", value: "99.9%" },
+  { label: "Alert dispatch", value: "<2s" },
 ];
 
 export type TechCategory = {
@@ -103,7 +176,7 @@ export const techDepth: TechCategory[] = [
   {
     layer: "Detection & Vision",
     description: "Where raw signal becomes structured understanding",
-    items: ["YOLOv8", "OpenCV", "DeepSORT", "CNNs"],
+    items: ["YOLOv8", "OpenCV", "DeepSORT", "Kalman Filter"],
   },
   {
     layer: "Real-time Infrastructure",
@@ -113,12 +186,12 @@ export const techDepth: TechCategory[] = [
   {
     layer: "Data & Persistence",
     description: "Where correctness has to survive scale",
-    items: ["MongoDB", "GeoJSON indexing", "SQL", "JWT auth"],
+    items: ["MongoDB", "GeoJSON indexing", "AsyncStorage", "JWT auth"],
   },
   {
     layer: "Interface",
     description: "Where all of the above becomes legible to a human",
-    items: ["React", "Next.js", "React Native", "Tailwind CSS"],
+    items: ["React", "React Native (Expo)", "Streamlit", "Tailwind CSS"],
   },
 ];
 
@@ -179,5 +252,5 @@ export const profile = {
   email: "nachiket.kale24@spit.ac.in",
   github: "https://github.com/nachiketkale24-png",
   linkedin: "https://linkedin.com/in/nachiket-kale-5363001b3",
-  ticker: ["Python", "React", "YOLOv8", "Redis", "Node.js", "MongoDB"],
+  ticker: ["Python", "React", "TypeScript", "YOLOv8", "Redis", "Node.js", "MongoDB", "Streamlit"],
 };
