@@ -10,6 +10,24 @@ export type Project = {
   flow: string[]; // architecture diagram node labels, in order
   links: { github?: string; demo?: string };
   accent: "signal" | "success";
+  videoUrl?: string;
+  screenshots?: { file: string; caption: string }[];
+  features?: { title: string; description: string }[];
+  systemDetails?: {
+    title: string;
+    description: string;
+    flowDiagram?: string[];
+    table?: {
+      headers: string[];
+      rows: string[][];
+    };
+    codeBlock?: {
+      language: string;
+      code: string;
+    };
+  }[];
+  roadmap?: { phase: string; status: "completed" | "in-progress" | "upcoming"; items: string[] }[];
+  usageExamples?: { title: string; conversation: { role: "user" | "app"; text: string }[] }[];
 };
 
 export const projects: Project[] = [
@@ -125,6 +143,164 @@ export const projects: Project[] = [
     ],
     links: { github: "https://github.com/nachiketkale24-png/SmartKisan" },
     accent: "success",
+    videoUrl: "/assets/working_prototype.mp4",
+    screenshots: [
+      { file: "/assets/1_iot_hardware.jpeg", caption: "Real sensor integration and Arduino/Microcontroller setup" },
+      { file: "/assets/2_dashboard.jpeg", caption: "Farm overview, crop status, quick navigation tasks" },
+      { file: "/assets/3_dashboard_2.jpeg", caption: "My Crops status details and disease alert system" },
+      { file: "/assets/4_irrigation.jpeg", caption: "Smart watering schedules, soil types and moisture tracking" },
+      { file: "/assets/5_health_monitor.jpeg", caption: "Crop health status hub and disease scan options" },
+      { file: "/assets/6_alerts.jpeg", caption: "Agricultural alerts by type, severity, and timestamps" },
+      { file: "/assets/7_voice_assistant.jpeg", caption: "Bilingual voice command dashboard assistant" },
+      { file: "/assets/8_ai_chatbot.jpeg", caption: "AI chatbot agricultural assistant with suggestions history" }
+    ],
+    features: [
+      { title: "Voice Assistant (Hindi / Hinglish)", description: "Bilingual natural language processing allows farmers to speak naturally, map intents to actions, and hear spoken replies via Text-to-Speech." },
+      { title: "Market Price Tracking (Mandi Bhav)", description: "Live crop rates across local markets, price trend analysis (↑ ↓ →), and algorithms recommending the best mandi for maximum returns." },
+      { title: "Government Schemes Navigator", description: "Bilingual database of 50+ active government schemes with automated land size, state, and document requirement checks." },
+      { title: "Crop Health Diagnostics", description: "Diagnose plant health (Good / Warning / Critical) and leverage scanning workflows to identify crop diseases and treatment options." },
+      { title: "Smart Irrigation Calculations", description: "Optimized watering scheduler calculating requirements based on soil moisture, crop-specific factors, and seasonal multipliers." },
+      { title: "Real-time Priority Alerts", description: "Instant notification warnings about extreme weather conditions, crop diseases, and sudden mandi price spikes." }
+    ],
+    systemDetails: [
+      {
+        title: "Voice Command System & Intent Recognition",
+        description: "Understands Hindi/Hinglish commands using expo-av for recording, native transcription services, and a custom regex/substring-based router to map intents with confidence scores.",
+        flowDiagram: [
+          "User Speech Input",
+          "Audio Capture (expo-av)",
+          "Speech-to-Text Recognition",
+          "Intent Router Parsing",
+          "Confidence Matching",
+          "UI Action / Navigation",
+          "Text-to-Speech Output (expo-speech)"
+        ],
+        table: {
+          headers: ["Intent", "Example Commands", "Action Taken"],
+          rows: [
+            ["SHOW_SCHEMES", "'योजना दिखाओ', 'government schemes'", "Navigate to Sarkari Schemes Screen"],
+            ["SHOW_PRICES", "'गेहूं का भाव बताओ', 'mandi rate'", "Fetch and show Mandi Prices Screen"],
+            ["SHOW_IRRIGATION", "'सिंचाई की सलाह दो', 'sinchai'", "Open Soil moisture & watering scheduler"],
+            ["SHOW_HEALTH", "'rog dikhao', 'crop disease'", "Navigate to Crop Health Diagnostics Hub"],
+            ["SHOW_ALERTS", "'alert', 'notification'", "Show critical alarms panel"],
+            ["CHECK_ELIGIBILITY", "'eligible', 'scheme eligibility'", "Check on-device profile eligibility"]
+          ]
+        },
+        codeBlock: {
+          language: "typescript",
+          code: `// Normalize input & execute matched intent
+const normalized = userInput.toLowerCase().trim();
+
+for (const [intent, patterns] of Object.entries(intentPatterns)) {
+  if (patterns.some(pattern => normalized.includes(pattern))) {
+    const params = extractParameters(intent, normalized);
+    const confidence = calculateConfidence(pattern, normalized);
+    if (confidence > 0.75) {
+      executeIntent(intent, params);
+      break;
+    }
+  }
+}`
+        }
+      },
+      {
+        title: "Market Prices (Mandi Bhav) offline cache",
+        description: "Mandi prices use local database files and cache to AsyncStorage. If the phone is offline, the app displays cached market trends seamlessly.",
+        codeBlock: {
+          language: "json",
+          code: `{
+  "prices": [
+    {
+      "crop": "Wheat",
+      "cropHindi": "गेहूं",
+      "mandis": [
+        { "name": "Jalandhar Mandi", "price": 2200, "trend": "up", "change": 2.5 },
+        { "name": "Chandigarh Mandi", "price": 2150, "trend": "stable", "change": 0 }
+      ]
+    }
+  ]
+}`
+        }
+      },
+      {
+        title: "Smart Irrigation & Soil Moisture Calculator",
+        description: "Calculates optimal watering schedules using real-time soil moisture sensors and crop multipliers, generating clear metrics for water volume and irrigation costs saved.",
+        codeBlock: {
+          language: "typescript",
+          code: `// Water requirement calculation
+RecommendedWater = BaseAmount * SoilMoistureFactor * CropFactor * SeasonFactor;
+WaterSavingsPercent = ((StandardWater - RecommendedWater) / StandardWater) * 100;
+CostSaved = WaterSavingsPercent * WaterBillRate;
+
+// Multipliers used:
+// Wheat: 0.8x | Rice: 1.5x | Cotton: 1.2x | Sugarcane: 1.4x`
+        }
+      },
+      {
+        title: "Government Schemes Eligibility Engine",
+        description: "Evaluates farmer profile fields against 50+ scheme constraints on-device, outputting whether they are Eligible, Partially Eligible, or Not Eligible, together with missing documentation reports.",
+        flowDiagram: [
+          "Check Land Size limits",
+          "Check State-specific availability",
+          "Check category exclusions",
+          "Check Aadhaar & Bank Account links",
+          "Return status: Eligible (✅) / Partial (⚠️) / Ineligible (❌)"
+        ]
+      }
+    ],
+    usageExamples: [
+      {
+        title: "Scheme Eligibility Check",
+        conversation: [
+          { role: "user", text: "क्या मैं सरकारी योजना के लिए पात्र हूं?" },
+          { role: "app", text: "मैंने आपकी प्रोफाइल का मिलान किया है। आप 'पीएम किसान योजना' के लिए पात्र हैं! आवेदन के लिए आपके पास आधार कार्ड और बैंक पासबुक होनी चाहिए।" }
+        ]
+      },
+      {
+        title: "Mandi Bhav Check",
+        conversation: [
+          { role: "user", text: "गेहूं का भाव बताओ?" },
+          { role: "app", text: "गेहूं की सर्वोत्तम कीमत जालंधर मंडी में ₹2,200 है। पिछली बार से 2.5% की वृद्धि (↑) हुई है।" }
+        ]
+      },
+      {
+        title: "Irrigation Advice",
+        conversation: [
+          { role: "user", text: "गेहूं को कितना पानी चाहिए?" },
+          { role: "app", text: "मृदा नमी को देखते हुए अभी 5,000 लीटर पानी देने की सलाह दी जाती है। इससे आप सामान्य से 30% पानी बचा रहे हैं।" }
+        ]
+      }
+    ],
+    roadmap: [
+      {
+        phase: "Phase 1: Core System Features",
+        status: "completed",
+        items: [
+          "Voice command assistant routing engine",
+          "Real-time Mandi price monitoring database",
+          "Government schemes eligibility checker & scanner",
+          "Task reminders & crop health status monitoring"
+        ]
+      },
+      {
+        phase: "Phase 2: AI & ML Integration",
+        status: "in-progress",
+        items: [
+          "Plant disease detection using CNN image models",
+          "Weather forecast integration with offline warnings",
+          "Soil moisture sensor IoT hardware integration"
+        ]
+      },
+      {
+        phase: "Phase 3: Community & Scaling",
+        status: "upcoming",
+        items: [
+          "Community peer-to-peer marketplace",
+          "Expert agronomist booking service",
+          "Direct crop loan processing assistance"
+        ]
+      }
+    ]
   },
   {
     slug: "weapon-alert-system",

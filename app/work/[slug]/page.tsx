@@ -6,6 +6,8 @@ import Contact from "@/components/sections/Contact";
 import Reveal from "@/components/ui/Reveal";
 import ArchitectureDiagram from "@/components/case-studies/ArchitectureDiagram";
 import { projects } from "@/lib/data";
+import ScreenshotsShowcase from "@/components/case-studies/ScreenshotsShowcase";
+import UsageSimulator from "@/components/case-studies/UsageSimulator";
 
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
@@ -96,6 +98,42 @@ export default function CaseStudyPage({ params }: { params: { slug: string } }) 
               </div>
             </Reveal>
 
+            {project.screenshots && (
+              <>
+                <div className="section-divider" aria-hidden="true" />
+                <Reveal delay={0.05}>
+                  <div className="py-16">
+                    <span className="font-mono text-[11px] text-signal uppercase tracking-[0.2em] block mb-8">
+                      Visual Interface Tour
+                    </span>
+                    <ScreenshotsShowcase screenshots={project.screenshots} accent={project.accent} />
+                  </div>
+                </Reveal>
+              </>
+            )}
+
+            {project.videoUrl && (
+              <>
+                <div className="section-divider" aria-hidden="true" />
+                <Reveal delay={0.05}>
+                  <div className="py-16">
+                    <span className="font-mono text-[11px] text-signal uppercase tracking-[0.2em] block mb-8">
+                      Working Prototype Demo
+                    </span>
+                    <div className="relative rounded-2xl overflow-hidden border border-line/60 bg-elevation-panel/30 backdrop-blur-md p-2 max-w-4xl mx-auto shadow-2xl">
+                      <div className="absolute inset-0 bg-gradient-to-tr from-signal/5 to-transparent pointer-events-none" />
+                      <video
+                        src={project.videoUrl}
+                        controls
+                        className="w-full rounded-xl object-cover aspect-video"
+                        poster={project.screenshots?.[1]?.file}
+                      />
+                    </div>
+                  </div>
+                </Reveal>
+              </>
+            )}
+
             <div className="section-divider" aria-hidden="true" />
 
             {/* problem */}
@@ -159,6 +197,183 @@ export default function CaseStudyPage({ params }: { params: { slug: string } }) 
                 </div>
               </div>
             </Reveal>
+
+            {project.features && (
+              <>
+                <div className="section-divider" aria-hidden="true" />
+                <Reveal delay={0.05}>
+                  <div className="py-16 grid md:grid-cols-[1fr_2.5fr] gap-6 md:gap-16">
+                    <span className="font-mono text-[11px] text-signal uppercase tracking-[0.2em]">
+                      Key Features
+                    </span>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      {project.features.map((feat) => (
+                        <div
+                          key={feat.title}
+                          className="p-6 rounded-2xl border border-line/60 bg-[#10151D]/20 hover:border-signal/25 transition-all duration-300 group"
+                        >
+                          <h4 className="font-display font-semibold text-[15px] text-ink group-hover:text-signal transition-colors">
+                            {feat.title}
+                          </h4>
+                          <p className="mt-2 text-ink-muted text-xs leading-relaxed">
+                            {feat.description}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </Reveal>
+              </>
+            )}
+
+            {project.systemDetails && (
+              <>
+                <div className="section-divider" aria-hidden="true" />
+                <div className="py-16 flex flex-col gap-16">
+                  {project.systemDetails.map((detail) => (
+                    <Reveal key={detail.title} delay={0.05}>
+                      <div className="grid md:grid-cols-[1fr_2.5fr] gap-8 md:gap-16">
+                        <div>
+                          <span className="font-mono text-[11px] text-signal uppercase tracking-[0.2em] block mb-3">
+                            Deep Dive
+                          </span>
+                          <h3 className="font-display font-bold text-xl md:text-2xl text-ink leading-tight">
+                            {detail.title}
+                          </h3>
+                          <p className="mt-4 text-ink-muted text-xs leading-relaxed">
+                            {detail.description}
+                          </p>
+                          
+                          {detail.flowDiagram && (
+                            <div className="mt-6 flex flex-col gap-2 font-mono text-[10px] uppercase tracking-wider text-ink-faint">
+                              <span className="text-[9px] text-signal/70 mb-1">Workflow steps:</span>
+                              {detail.flowDiagram.map((step, stepIdx) => (
+                                <div key={stepIdx} className="flex gap-2 items-center">
+                                  <span className="text-signal">{stepIdx + 1}.</span>
+                                  <span>{step}</span>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                        
+                        <div className="flex flex-col gap-6 overflow-hidden">
+                          {detail.table && (
+                            <div className="overflow-x-auto rounded-xl border border-line/50 bg-[#10151D]/20">
+                              <table className="w-full text-left border-collapse text-xs font-mono">
+                                <thead>
+                                  <tr className="border-b border-line/60 bg-elevation-panel/40">
+                                    {detail.table.headers.map((th) => (
+                                      <th key={th} className="px-4 py-3 text-ink font-semibold tracking-wider uppercase">
+                                        {th}
+                                      </th>
+                                    ))}
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {detail.table.rows.map((row, rowIdx) => (
+                                    <tr key={rowIdx} className="border-b border-line/30 last:border-0 hover:bg-elevation-panel/10">
+                                      {row.map((cell, cellIdx) => (
+                                        <td key={cellIdx} className="px-4 py-3 text-ink-muted">
+                                          {cell}
+                                        </td>
+                                      ))}
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+                          )}
+
+                          {detail.codeBlock && (
+                            <div className="rounded-xl overflow-hidden border border-line/60 bg-[#0E121B] p-4 font-mono text-[11px] leading-relaxed">
+                              <div className="flex justify-between items-center pb-2 mb-3 border-b border-line/45 text-[10px] uppercase tracking-wider text-ink-faint">
+                                <span>{detail.codeBlock.language}</span>
+                                <span className="opacity-60">Source Snippet</span>
+                              </div>
+                              <pre className="overflow-x-auto text-ink-muted max-w-full">
+                                <code>{detail.codeBlock.code}</code>
+                              </pre>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </Reveal>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {project.usageExamples && (
+              <>
+                <div className="section-divider" aria-hidden="true" />
+                <Reveal delay={0.05}>
+                  <div className="py-16 grid md:grid-cols-[1fr_2.5fr] gap-6 md:gap-16">
+                    <div>
+                      <span className="font-mono text-[11px] text-signal uppercase tracking-[0.2em] block mb-3">
+                        Interaction
+                      </span>
+                      <h3 className="font-display font-bold text-xl md:text-2xl text-ink leading-tight">
+                        Voice Assistant Simulator
+                      </h3>
+                      <p className="mt-4 text-ink-muted text-xs leading-relaxed">
+                        Toggle between dynamic voice command scenarios to see how the system maps spoken Hindi/Hinglish instructions to precise actions.
+                      </p>
+                    </div>
+                    <div>
+                      <UsageSimulator examples={project.usageExamples} accent={project.accent} />
+                    </div>
+                  </div>
+                </Reveal>
+              </>
+            )}
+
+            {project.roadmap && (
+              <>
+                <div className="section-divider" aria-hidden="true" />
+                <Reveal delay={0.05}>
+                  <div className="py-16">
+                    <span className="font-mono text-[11px] text-signal uppercase tracking-[0.2em] block mb-8">
+                      Project Roadmap
+                    </span>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      {project.roadmap.map((phase) => (
+                        <div
+                          key={phase.phase}
+                          className="p-6 rounded-2xl border border-line/60 bg-[#10151D]/20 flex flex-col justify-between"
+                        >
+                          <div>
+                            <h4 className="font-display font-semibold text-sm text-ink mb-4">
+                              {phase.phase}
+                            </h4>
+                            <ul className="flex flex-col gap-3">
+                              {phase.items.map((item, idx) => (
+                                <li key={idx} className="flex gap-2.5 items-start text-xs text-ink-muted">
+                                  <span className="mt-1 text-signal shrink-0">•</span>
+                                  <span>{item}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                          
+                          <div className="mt-6 flex justify-end">
+                            <span className={`font-mono text-[9px] uppercase tracking-widest px-3 py-1 rounded-full border ${
+                              phase.status === "completed"
+                                ? "bg-success/5 border-success/20 text-success"
+                                : phase.status === "in-progress"
+                                ? "bg-signal/5 border-signal/20 text-signal"
+                                : "bg-elevation-panel/50 border-line/50 text-ink-faint"
+                            }`}>
+                              {phase.status === "completed" ? "Completed" : phase.status === "in-progress" ? "In Progress" : "Upcoming"}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </Reveal>
+              </>
+            )}
 
             {project.links.github && (
               <Reveal delay={0.05}>
