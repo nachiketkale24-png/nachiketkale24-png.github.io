@@ -40,6 +40,8 @@ components/
   ui/                    → reusable primitives (Reveal, MagneticButton, AnimatedNumber)
   case-studies/
     ArchitectureDiagram.tsx → the signature scroll-animated system diagram
+    ScreenshotsShowcase.tsx → interactive slideshow carousel with modal lightbox zoom
+    UsageSimulator.tsx      → conversational dialogue assistant simulator
 
 lib/
   data.ts    → single source of truth for all content (projects, stats, timeline)
