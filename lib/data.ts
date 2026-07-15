@@ -598,12 +598,12 @@ export const timeline: TimelineEntry[] = [
   {
     date: "Jan 2026",
     title: "23 Ventures Pitchathon",
-    detail: "4th position among 200+ startups for system design and execution.",
+    detail: "2nd position among 200+ startups for system design and execution.",
   },
   {
     date: "Feb 2026",
     title: "VESIT Hackathon",
-    detail: "Top 40 of 2,000+ teams.",
+    detail: "Top 5 of 2,000+ teams.",
   },
   {
     date: "Feb 2026",
@@ -613,7 +613,7 @@ export const timeline: TimelineEntry[] = [
   {
     date: "Mar 2026",
     title: "Vasantdada Patil National Hackathon",
-    detail: "Top 60 of 3,000+ teams nationwide.",
+    detail: "Top 10 of 3,000+ teams nationwide.",
   },
   {
     date: "Mar 2026",
@@ -624,6 +624,11 @@ export const timeline: TimelineEntry[] = [
     date: "Apr 2026",
     title: "Hack4Innovation, VESIT",
     detail: "CrowdSense AI placed top 45 of 375 teams — later evolved into a 9-sensor fusion platform.",
+  },
+  {
+    date: "Apr 2026",
+    title: "SIES Innov8 Hackathon",
+    detail: "Domain Winner for innovative system implementation.",
   },
   {
     date: "May 2026",
