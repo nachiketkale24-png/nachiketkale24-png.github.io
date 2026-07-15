@@ -622,11 +622,6 @@ export const timeline: TimelineEntry[] = [
   },
   {
     date: "Apr 2026",
-    title: "Hack4Innovation, VESIT",
-    detail: "CrowdSense AI placed top 45 of 375 teams — later evolved into a 9-sensor fusion platform.",
-  },
-  {
-    date: "Apr 2026",
     title: "SIES Innov8 Hackathon",
     detail: "Domain Winner for innovative system implementation.",
   },
